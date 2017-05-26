@@ -117,3 +117,6 @@ a.desc:after {
 .navbar{
     margin-bottom:0 !important;
 }
+#avg{
+    color: red;
+}

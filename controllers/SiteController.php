@@ -1,18 +1,25 @@
 <?php
-
 namespace app\controllers;
 
+use app\models\Currency;
+use yii\db\Query;
 use app\models\Auctions;
 use app\models\Login;
 use app\models\PropForm;
 use app\models\Propositions;
 use app\models\Signup;
+use app\models\Parse;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\ContactForm;
+use app\models\Contracts;
+use app\components\MyWidget;
+use yii\bootstrap\ActiveForm;
+use yii\web\Response;
 
+use app\models\Payment_accounts;
 
 class SiteController extends Controller
 {
@@ -72,10 +79,24 @@ class SiteController extends Controller
             $model->save();
             return $this->goHome();
         }
-        $propositions = Propositions::find()->orderBy(['id'=>SORT_DESC])->with('user')->all();
-//        $count = Propositions::find()->count();
-//        var_dump($propositions);die();
-        return $this->render('index',['propositions'=>$propositions,'model'=>$model]);
+        $currency = Currency::find()->all();
+        $propositions = Propositions::find()->orderBy(['id'=>SORT_DESC])->with('user')->where(['status'=>'0'])->all();
+
+        return $this->render('index',['propositions'=>$propositions,'model'=>$model,'currency'=>$currency]);
+    }
+
+    public function actionCountContr()
+    {
+        $data = (new Query())->select(['user.login', 'COUNT(c.id) as counts'])
+            ->from('user')
+            ->leftJoin('propositions as prop', 'prop.user_id = user.id')
+            ->leftJoin('contracts as c', 'prop.id = c.id_prop')
+            ->groupBy('user.login')
+            ->having(['>', 'COUNT(c.id)', 0])
+            ->where(['=', 'c.status', '2'])
+            ->all();
+
+        return  json_encode($data);
     }
 
     /**
@@ -94,6 +115,7 @@ class SiteController extends Controller
             if ($login_model->validate()){
                 Yii::$app->user->login($login_model->getUser());
                 $_SESSION['id'] = $login_model->getUser()->id;
+                $_SESSION['login'] = $login_model->getUser()->login;
                 return $this->goHome();
             }
         }
@@ -111,8 +133,6 @@ class SiteController extends Controller
             Yii::$app->user->logout();
             return $this->redirect(['login']);
         }
-
-
         return $this->goHome();
     }
 
@@ -133,76 +153,36 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    public function actionWebmoney(){
 
-        return $this->render('webmoney');
+    public function actionRate()
+    {
+        if (Yii::$app->request->isAjax){
+
+            $from= Yii::$app->request->post('from');
+            $to  = Yii::$app->request->post('to');
+
+            if (!empty($from)and !empty($to)){
+                $rate = Parse::find()->select('rate_out')->where("currency_from = '{$from}' AND currency_to = '{$to}'")->asArray()->one();
+                $result = $rate['rate_out'];
+                return $result;
+            }
+        }
     }
 
-    public function actionCash(){
+    public function actionCash()
+    {
         return $this->render('cash');
     }
-    public function actionAbout()
+
+    public function actionSignup()
     {
-
-        return $this->render('about');
-    }
-
-    public function actionSignup(){
         $model = new Signup();
         if (isset($_POST['Signup'])){
            $model->attributes=Yii::$app->request->post('Signup');
            if($model->validate() && $model->signup()){
-               return $this->goHome();
+               return $this->redirect(['login']);
            }
         }
         return $this->render('signup',['model'=>$model]);
-    }
-    public function actionAdmin(){
-        return $this->render('admin');
-    }
-
-    public function actionAuction($id) {
-
-        if ($user_id = Yii::$app->session->get('id')) {
-
-            $model = new Auctions();
-            $prop = Propositions::find()->where(['id' => $id])->one();
-
-            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                $model->user_id = $user_id;
-                $model->id_prop = $prop->id;
-                $model->save();
-                return $this->goHome();
-            }
-            return $this->render('auction', ['model' => $model, 'sum' => ceil($prop->sum), 'course' => round($prop->course, 2)]);
-        } else {
-            return $this->redirect(['login']);
-        }
-    }
-
-    public function actionAccept($id){
-
-        if ($user_id = Yii::$app->session->get('id')) {
-
-            $model = new Auctions();
-            $prop = Propositions::find()->where(['id' => $id])->one();
-
-            $model->user_id = $user_id;
-            $model->id_prop = $prop->id;
-
-            $model->sum = $prop->sum * $prop->course;
-            $model->kurs = $prop->course;
-
-            $model->save();
-//            var_dump($model->kurs);
-//            var_dump($model->sum);
-//            var_dump($model->user_id);
-//            var_dump($model->id_prop);
-
-            return $this->goHome();
-
-        } else {
-            return $this->redirect(['login']);
-        }
     }
 }

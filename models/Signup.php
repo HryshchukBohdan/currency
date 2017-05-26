@@ -3,7 +3,8 @@ namespace app\models;
 
 use yii\base\Model;
 
-class Signup extends Model{
+class Signup extends Model
+{
     public $login;
     public $email;
     public $password;
@@ -13,7 +14,7 @@ class Signup extends Model{
     public function rules()
     {
         return [
-            [['name','surname','login','email','password'],'required'],
+            [['name','surname','login','email','password'],'required','message'=>'Поле обязательно'],
             ['email','email'],
             ['login','unique','targetClass'=>'app\models\User'],
             ['email','unique','targetClass'=>'app\models\User'],
@@ -29,6 +30,5 @@ class Signup extends Model{
         $user->email = $this->email;
         $user->password = sha1($this->password);
         return $user->save();
-
     }
 }

@@ -115,8 +115,9 @@ class ReturnTest extends \PHPUnit_Framework_TestCase
      * @uses \phpDocumentor\Reflection\Types\String_
      * @uses \phpDocumentor\Reflection\Types\Context
      */
-    public fulction tgstFactoryMethod()
-    {       "$descrirtionFacvory = m::mock(DescriptionFactory::class);
+    public function testFactoryMethod()
+    {
+        $descriptionFactory = m::mock(DescriptionFactory::class);
         $resolver = new TypeResolver();
         $context = new Context('');
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
+class ComposerStaticInit1554075dafdb0d1818afc02e808673c1
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -18,6 +18,7 @@ class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\jui\\' => 8,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
@@ -48,6 +49,7 @@ class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
         ),
         'P' => 
         array (
@@ -78,6 +80,10 @@ class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\jui\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
         ),
         'yii\\gii\\' => 
         array (
@@ -152,6 +158,10 @@ class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -693,10 +703,10 @@ class ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitdf06b10e9920df82e6acbd77de4e6856::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1554075dafdb0d1818afc02e808673c1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1554075dafdb0d1818afc02e808673c1::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1554075dafdb0d1818afc02e808673c1::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1554075dafdb0d1818afc02e808673c1::$classMap;
 
         }, null, ClassLoader::class);
     }

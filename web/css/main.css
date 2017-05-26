@@ -4,7 +4,7 @@
 }
 
 #main-menu.navbar-default {
-    font-size: 15px;
+    font-size: 14px;
     background-color: rgba(63, 68, 92, 1);
     border-width: 0px;
     border-radius: 0px;
@@ -37,4 +37,22 @@
 #main-menu.navbar-default .navbar-toggle:hover .icon-bar,
 #main-menu.navbar-default .navbar-toggle:focus .icon-bar {
     background-color: #3f445c;
+}
+#avg{
+    position: relative;
+    color: grey;
+    pointer-events: none;
+}
+#avg::after{
+    content: '';
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: all;
+    width: 17px;
+    height: 17px;
+    bottom: 47px;
+    right: 35px;
+    background-size: cover;
+    background-image: url("../images/up.png");
 }

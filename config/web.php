@@ -17,6 +17,7 @@ $config = [
                 'rules' => [
                     '' => 'site/index',
                     '<controller>/<action>/<id>'=>'<controller>/<action>',
+                    '<controller>/<action>/<id_prop>/<id_auc>'=>'<controller>/<action>',
                 ],
             ],
         'cache' => [

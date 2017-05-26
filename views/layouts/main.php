@@ -38,34 +38,40 @@ AppAsset::register($this);
     $nav = [
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' =>'Home', 'url' => ['/site/index']],
-            ['label' =>'Cash', 'url' => ['/site/cash']],
-            ['label' =>'Webmoney', 'url' => ['/site/webmoney']],
-            ['label' =>'Converter', 'url' => ['/site/converter']],
-            ['label' => 'Contacts', 'url' => ['/site/contact']],
+            ['label' =>'Главная <span class="glyphicon glyphicon-home"></span>','url' => ['/site/index']],
+            ['label' =>'Эл.курс', 'url' => ['/parse/xml']],
+            ['label' => 'Контакты', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-            ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Войти', 'url' => ['/site/login']]
 
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->login. ')',
+                    'Выйти (' . Yii::$app->user->identity->login. ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
                 . '</li>'
             )
         ],
+        'encodeLabels'=>false
     ];
+
     if (empty(Yii::$app->session->get('id'))){
-        $nav['items'][4]=['label' => 'Registration', 'url' => ['/site/signup']];
+        $nav['items'][2]=['label' => 'Регистрация', 'url' => ['/site/signup']];
+    }else {
+        $nav['items'][2]=['label' =>'Личный кабинет', 'url' => ['/personal/user']];
+        $nav['items'][5]=$nav['items'][3];
+        $nav['items'][3]= ['label' => 'Сообщения' . Html::tag('span', "_", ['class' => 'badge','id'=>"msg"]),'url' => ['/personal/messages']];
     }
-    if (!empty(Yii::$app->session->get('id')=='4')){
-        $nav['items'][4]=['label' =>'Administration', 'url' => ['/site/admin']];
+    if (Yii::$app->session->get('id')=='4'){
+        $nav['items'][6]=$nav['items'][5];
+        $nav['items'][5]=['label' =>'Администрирование'. Html::tag('span', "_", ['class' => 'badge','id'=>"admin"]),'url' => ['/admin']];
     }
     echo Nav::widget($nav);
     NavBar::end();
+
     ?>
 
     <div class="container">

@@ -8512,7 +8512,7 @@ indiscrètes, la calomnie, le dédain, l'outrage peut-être.
 L'outrage à vous! Oh!... Et moi qui voudrais vous faire asseoir
 sur un trône! moi qui emporte votre pensée comme un talisman! Car
 je me punis par l'exil de tout le mal que je vous ai fait. Je
-pars. Où? Je n'en sais rien, je suis fou! Adieu! Soyez toujours
+parse. Où? Je n'en sais rien, je suis fou! Adieu! Soyez toujours
 bonne! Conservez le souvenir du malheureux qui vous a perdue.
 Apprenez mon nom à votre enfant, qu'il le redise dans ses
 prières.»
